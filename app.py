@@ -12,7 +12,7 @@ from groq import Groq
 # ---------------------------------------------------------
 st.set_page_config(
     page_title="Gold Signal Generator",
-    page_icon="?",
+    page_icon="🪙",
     layout="wide"
 )
 
@@ -27,13 +27,13 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-st.title("? GOLD SIGNAL GENERATOR (XAUUSD)")
+st.title("🪙 GOLD SIGNAL GENERATOR (XAUUSD)")
 st.caption("Multi-Strategy Rule Based Engine + AI Reasoning")
 
 # ---------------------------------------------------------
 # Sidebar - Groq API Key Config
 # ---------------------------------------------------------
-st.sidebar.header("?? Configuration")
+st.sidebar.header("⚙️ Configuration")
 groq_api_key = st.sidebar.text_input("Enter Groq API Key (Free)", type="password")
 st.sidebar.markdown("[Get Free Groq API Key Here](https://console.groq.com/)")
 
@@ -66,7 +66,7 @@ def get_market_sessions():
         
     overlap = ""
     if "London" in sessions and "New York" in sessions:
-        overlap = "? London / NY Overlap - High Volatility Expected!"
+        overlap = "🔥 London / NY Overlap - High Volatility Expected!"
     elif not sessions:
         sessions = ["Sydney / Asian Quiet Hours"]
         
@@ -148,7 +148,7 @@ def analyze_strategies(df):
 # ---------------------------------------------------------
 def generate_ai_decision(signals, current_price, session, groq_key):
     if not groq_key:
-        return "?? Please enter your Groq API Key in the sidebar to get AI Analysis."
+        return "⚠️ Please enter your Groq API Key in the sidebar to get AI Analysis."
     
     try:
         client = Groq(api_key=groq_key)
@@ -175,9 +175,9 @@ def generate_ai_decision(signals, current_price, session, groq_key):
         4. Give exact Entry, Stop Loss (SL), Take Profit (TP), and Risk/Reward ratio.
 
         Format your output strictly like this:
-        ? BUY Probability: X%
-        ? SELL Probability: Y%
-        ? WAIT Status: [Active/Inactive]
+        🟢 BUY Probability: X%
+        🔴 SELL Probability: Y%
+        ⚪ WAIT Status: [Active/Inactive]
 
         AI FINAL SIGNAL: [BUY / SELL / WAIT]
         Confidence: Z%
@@ -229,7 +229,7 @@ if not data.empty:
     left_col, right_col = st.columns([1, 1])
 
     with left_col:
-        st.subheader("? Strategy Scanner Matrix")
+        st.subheader("📊 Strategy Scanner Matrix")
         
         # Display Matrix
         matrix_df = pd.DataFrame(list(signals.items()), columns=["Strategy / Concept", "Signal"])
@@ -246,7 +246,7 @@ if not data.empty:
         )
 
     with right_col:
-        st.subheader("? Live Chart")
+        st.subheader("📈 Live Chart")
         fig = go.Figure(data=[go.Candlestick(
             x=data.index,
             open=data['Open'],
@@ -265,12 +265,11 @@ if not data.empty:
     st.markdown("---")
 
     # AI Decision Engine Section
-    st.subheader("? AI Decision Engine & Reasoner")
+    st.subheader("🤖 AI Decision Engine & Reasoner")
 
-    if st.button("? Run AI Multi-Strategy Analysis", type="primary"):
+    if st.button("🔍 Run AI Multi-Strategy Analysis", type="primary"):
         with st.spinner("AI Engine reading strategy matrix & analyzing order blocks..."):
             ai_output = generate_ai_decision(signals, latest_price, current_session, groq_api_key)
             st.markdown(f"```text\n{ai_output}\n```")
 else:
     st.error("Failed to load market data. Please refresh.")
-
